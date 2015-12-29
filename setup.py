@@ -24,8 +24,8 @@ CLASSIFIERS = [
 REQUIREMENTS = [
     'Django >= 1.4',
     'django-mptt >= 0.4.2',
-    'prices >= 2012.11',
-    'django-prices >= 2012.11.5'
+    'prices >= 0.4, < 0.5',
+    'django-prices >= 0.2, < 0.3'
 ]
 
 EXTRAS = {
