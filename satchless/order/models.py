@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -42,11 +42,12 @@ class Order(models.Model, ItemSet):
     # Do not set the status manually, use .set_status() instead.
     status = models.CharField(_('order status'), max_length=32,
                               choices=STATUS_CHOICES, default='checkout')
-    created = models.DateTimeField(default=datetime.datetime.now,
+    created = models.DateTimeField(default=timezone.now,
                                    editable=False, blank=True)
-    last_status_change = models.DateTimeField(default=datetime.datetime.now,
+    last_status_change = models.DateTimeField(default=timezone.now,
                                               editable=False, blank=True)
-    user = models.ForeignKey(User, blank=True, null=True, related_name='+')
+    # fix: use defferable instead direct auth.User definition (django 1.5+)
+    user = DeferredForeignKey('user', blank=True, null=True, related_name='+')
     billing_first_name = models.CharField(_("first name"),
                                           max_length=256, blank=True)
     billing_last_name = models.CharField(_("last name"),
@@ -115,7 +116,7 @@ class Order(models.Model, ItemSet):
     def set_status(self, new_status):
         old_status = self.status
         self.status = new_status
-        self.last_status_change = datetime.datetime.now()
+        self.last_status_change = timezone.now()
         self.save()
         signals.order_status_changed.send(sender=type(self), instance=self,
                                           old_status=old_status)
