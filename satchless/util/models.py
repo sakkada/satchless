@@ -56,7 +56,7 @@ class Subtyped(models.Model):
         """
         subtype = self
         path = self.subtype_attr.split()
-        whoami = self._meta.module_name
+        whoami = self._meta.model_name
         remaining = path[path.index(whoami) + 1:]
         for r in remaining:
             subtype = getattr(subtype, r)
@@ -70,7 +70,7 @@ class Subtyped(models.Model):
                 parent = parents[0]
                 path.append(parent)
                 parents = parent._meta.parents.keys()
-            path = [p._meta.module_name for p in reversed(path)]
+            path = [p._meta.model_name for p in reversed(path)]
             self.subtype_attr = ' '.join(path)
 
 

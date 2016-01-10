@@ -49,7 +49,7 @@ class CategorizedProductApp(app.ProductApp):
     def category_list(self, request):
         context = self.get_context_data(request)
         format_data = {
-            'category_model': self.Category._meta.module_name,
+            'category_model': self.Category._meta.model_name,
         }
         templates = [p % format_data for p in self.category_list_templates]
         return TemplateResponse(request, templates, context)
@@ -67,7 +67,7 @@ class CategorizedProductApp(app.ProductApp):
         category = path[-1]
         context = self.get_context_data(request, category=category, path=path)
         format_data = {
-            'category_model': category._meta.module_name,
+            'category_model': category._meta.model_name,
         }
         templates = [p % format_data for p in self.category_details_templates]
         return TemplateResponse(request, templates, context)

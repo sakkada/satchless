@@ -34,10 +34,9 @@ class JSONResponse(HttpResponse):
             return self.UndercoverDecimal(o)
         raise TypeError()
 
-    def __init__(self, content='', mimetype=None, status=None,
+    def __init__(self, content='', status=None,
                  content_type='application/json'):
         content = json.dumps(content, default=self.handle_decimal)
         return super(JSONResponse, self).__init__(content=content,
-                                                  mimetype=mimetype,
                                                   status=status,
                                                   content_type=content_type)
