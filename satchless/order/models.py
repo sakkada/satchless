@@ -96,7 +96,7 @@ class Order(models.Model, ItemSet):
     def __repr__(self):
         return '<Order #%r>' % (self.id,)
 
-    def get_default_currency(self):
+    def get_default_currency(self, **kwargs):
         return settings.SATCHLESS_DEFAULT_CURRENCY
 
     def save(self, *args, **kwargs):
@@ -196,7 +196,7 @@ class DeliveryGroup(models.Model, ItemSet):
         if delivery:
             yield delivery
 
-    def get_default_currency(self):
+    def get_default_currency(self, **kwargs):
         return settings.SATCHLESS_DEFAULT_CURRENCY
 
     def get_delivery(self):
@@ -236,5 +236,5 @@ class OrderedItem(models.Model, ItemLine):
         return Price(net=self.unit_price_net, gross=self.unit_price_gross,
                      currency=settings.SATCHLESS_DEFAULT_CURRENCY)
 
-    def get_quantity(self):
+    def get_quantity(self, **kwargs):
         return self.quantity
